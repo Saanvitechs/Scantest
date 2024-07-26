@@ -35,6 +35,7 @@ public class EmailService {
         for (CartItem item : items) {
             body.append("Product: ").append(item.getName())
                     .append(", Price: ").append(item.getPrice())
+                    .append(", Weight: ").append(item.getWeight())
 //                    .append(", Quantity: ").append(item.getQuantity())
                     .append("\n");
         }

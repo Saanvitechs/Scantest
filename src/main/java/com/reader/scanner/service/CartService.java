@@ -23,6 +23,11 @@ public class CartService {
     public List<CartItem> getCartItems(Cart cart) {
         return cart.getItems();
     }
+//public List<CartItem> getCartItems(Cart cart) {
+//    return cart.getItems().stream()
+//            .map(item -> new CartItem(item.getRfid(), item.getProductId(), item.getName(), item.getPrice(), item.getWeight())) // Map weight
+//            .toList();
+//}
 
     public void addItemToCart(Cart cart, Product product) {
         cart.addItem(product);

@@ -211,6 +211,9 @@ public class CartItem {
 
     }
 
+    public CartItem(String rfid, String productId, String name, double price, double weight) {
+    }
+
     public Long getId() {
         return id;
     }
