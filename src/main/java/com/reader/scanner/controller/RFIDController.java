@@ -664,9 +664,10 @@ public class RFIDController {
 
             Product product = new Product();
             product.setRfid(rfid);
-            product.setProductId(productDetails.get("productId")); // Set productId
+            product.setProductId(productDetails.get("productId"));
             product.setName(productDetails.get("name"));
             product.setPrice(Double.parseDouble(productDetails.get("price")));
+            product.setWeight(Double.parseDouble(productDetails.get("weight")));
 
             Cart cart = (Cart) session.getAttribute("cart");
             if (cart == null) {
@@ -674,6 +675,7 @@ public class RFIDController {
                 cart.setCartId(cartService.generateCartId());
                 cart.setUser(user);
                 session.setAttribute("cart", cart);
+                session.setMaxInactiveInterval(2 * 60 * 60);
             }
 
             cartService.addItemToCart(cart, product);

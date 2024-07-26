@@ -395,8 +395,9 @@ public class CartController {
     @Autowired
     private EmailService emailService;
 
+
     @GetMapping("/cart")
-    public ResponseEntity<List<CartItem>> getCart(HttpSession session) {
+    public ResponseEntity<?> getCart(HttpSession session) {
         // Extract email from JWT token
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
@@ -404,21 +405,54 @@ public class CartController {
         // Find user by email
         User user = userService.findByEmail(email);
         if (user == null) {
-            return ResponseEntity.status(404).body(List.of()); // User not found
+            return ResponseEntity.status(404).body("User not found"); // User not found
         }
 
-        // Get cart from session
         Cart cart = (Cart) session.getAttribute("cart");
         if (cart != null && cart.getUser().getId().equals(user.getId())) {
-            if (cart.getItems().isEmpty()) {
-                return ResponseEntity.ok(List.of());
+            List<CartItem> cartItems = cartService.getCartItems(cart);
+            if (cartItems.isEmpty()) {
+                return ResponseEntity.ok("Your cart is empty");
             } else {
-                return ResponseEntity.ok(cartService.getCartItems(cart));
+                return ResponseEntity.ok(cartItems);
             }
         } else {
-            return ResponseEntity.ok(List.of()); // Return an empty list if no cart or cart doesn't match
+            return ResponseEntity.ok("Your cart is empty"); // Return an empty cart message
         }
     }
+
+//    @GetMapping("/cart")
+//    public ResponseEntity<List<CartItem>> getCart(HttpSession session) {
+//        // Extract email from JWT token
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String email = authentication.getName();
+//
+//        // Find user by email
+//        User user = userService.findByEmail(email);
+//        if (user == null) {
+//            return ResponseEntity.status(404).body(List.of()); // User not found
+//        }
+//
+//        Cart cart = (Cart) session.getAttribute("cart");
+//        if (cart != null && cart.getUser().getId().equals(user.getId())) {
+//            return ResponseEntity.ok(cartService.getCartItems(cart));
+//        } else {
+//            return ResponseEntity.ok(List.of());
+//        }
+//    }
+
+//        // Get cart from session
+//        Cart cart = (Cart) session.getAttribute("cart");
+//        if (cart != null && cart.getUser().getId().equals(user.getId())) {
+//            if (cart.getItems().isEmpty()) {
+//                return ResponseEntity.ok(List.of());
+//            } else {
+//                return ResponseEntity.ok(cartService.getCartItems(cart));
+//            }
+//        } else {
+//            return ResponseEntity.ok(List.of()); // Return an empty list if no cart or cart doesn't match
+//        }
+//    }
 
     @PostMapping("/checkout")
     public ResponseEntity<byte[]> checkout(HttpSession session) throws WriterException, IOException {
