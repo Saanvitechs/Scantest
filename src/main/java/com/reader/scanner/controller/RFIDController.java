@@ -589,61 +589,6 @@ public class RFIDController {
     @Autowired
     private ProductLookupService productLookupService;
 
-
-//    @PostMapping("/scan")
-//    public ResponseEntity<String> scanBarcodeOrQRCode(@RequestBody String scannedData, HttpSession session) {
-//        try {
-//            // Extract email from JWT token
-//            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//            String email = authentication.getName();
-//
-//            // Find user by email
-//            User user = userService.findByEmail(email);
-//            if (user == null) {
-//                return ResponseEntity.status(404).body("User not found");
-//            }
-//
-//            // Parse the scanned data
-//            ObjectMapper objectMapper = new ObjectMapper();
-//            JsonNode jsonNode = objectMapper.readTree(scannedData);
-//
-//            // Check if the required fields are present
-//            if (jsonNode.has("rfid") && jsonNode.has("productId") && jsonNode.has("name") && jsonNode.has("price")) {
-//                // All required fields are present, save the product to the database
-//                Product product = objectMapper.treeToValue(jsonNode, Product.class);
-//
-//                // Save the product to the database
-//                product = productRepository.save(product);
-//
-//                // Get or create a cart for the session and associate it with the correct user
-//                Cart cart = (Cart) session.getAttribute("cart");
-//                if (cart == null || !cart.getUser().getId().equals(user.getId())) {
-//                    cart = new Cart();
-//                    cart.setCartId(cartService.generateCartId());
-//                    cart.setUser(user);
-//                    session.setAttribute("cart", cart);
-//                    session.setMaxInactiveInterval(2 * 60 * 60); // Set session timeout to 2 hours
-//                }
-//
-//                // Add product to cart
-//                cartService.addItemToCart(cart, product);
-//
-//                // Save the cart to the database
-//                cartService.saveCart(cart);
-//
-//                return ResponseEntity.ok("Product added to cart: " + scannedData);
-//            } else {
-//                // Return the decoded data
-//                return ResponseEntity.ok("Scanned data: " + scannedData);
-//            }
-//        } catch (Exception e) {
-//            // This block catches all other exceptions
-//            e.printStackTrace();
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing scanned data: " + e.getMessage());
-//        }
-//    }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     @PostMapping("/scan")
     public ResponseEntity<Map<String, String>> scanRFID(@RequestBody Map<String, String> rfidMap, HttpSession session) {
         try {
