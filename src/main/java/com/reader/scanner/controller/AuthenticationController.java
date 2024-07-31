@@ -25,11 +25,15 @@ public class AuthenticationController {
         try {
             User user = authenticationService.authenticate(loginRequest.getEmail(), loginRequest.getPassword());
             String token = jwtUtil.generateToken(user.getEmail());
+            String bearerToken = "Bearer " + token;
             Map<String, String> response = new HashMap<>();
-            response.put("token", token);
+            response.put("token", bearerToken);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.status(401).body("Invalid email or password");
         }
     }
 }
+
+// added 28th line
+//changes at 30th line with bearertoken

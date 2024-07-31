@@ -219,24 +219,41 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         final String requestTokenHeader = request.getHeader("Authorization");
 
-        String username = null;
+
         String jwtToken = null;
+        String email = null;
+
 
         if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
+            // Extract the JWT token after "Bearer "
             jwtToken = requestTokenHeader.substring(7);
             try {
-                username = jwtUtil.extractUsername(jwtToken);
-            } catch (IllegalArgumentException e) {
-                System.out.println("Unable to get JWT Token");
+                email = jwtUtil.extractEmail(jwtToken); // Extract email from the token
             } catch (ExpiredJwtException e) {
                 System.out.println("JWT Token has expired");
+            } catch (Exception e) {
+                System.out.println("Unable to extract JWT Token");
             }
-        } else {
-            System.out.println("JWT Token does not begin with Bearer String");
         }
 
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = this.myUserDetailsService.loadUserByUsername(username);
+//        if (requestTokenHeader != null) {
+//            if (requestTokenHeader.startsWith("Bearer ")) {
+//                jwtToken = requestTokenHeader.substring(7);
+//            } else {
+//                jwtToken = requestTokenHeader;
+//            }
+//
+//            try {
+//                email = jwtUtil.extractEmail(jwtToken); // Extract email
+//            } catch (ExpiredJwtException e) {
+//                System.out.println("JWT Token has expired");
+//            } catch (Exception e) {
+//                System.out.println("Unable to extract JWT Token");
+//            }
+//        }
+
+        if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            UserDetails userDetails = this.myUserDetailsService.loadUserByUsername(email);
 
             if (jwtUtil.validateToken(jwtToken, userDetails.getUsername())) {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
@@ -248,3 +265,37 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         chain.doFilter(request, response);
     }
 }
+
+
+//        String username = null;
+//        String jwtToken = null;
+//
+//        if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
+//            jwtToken = requestTokenHeader.substring(7);
+//            try {
+//                username = jwtUtil.extractUsername(jwtToken);
+//            } catch (IllegalArgumentException e) {
+//                System.out.println("Unable to get JWT Token");
+//            } catch (ExpiredJwtException e) {
+//                System.out.println("JWT Token has expired");
+//            }
+//        } else {
+//            System.out.println("JWT Token does not begin with Bearer String");
+//        }
+//
+//        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+//            UserDetails userDetails = this.myUserDetailsService.loadUserByUsername(username);
+//
+//            if (jwtUtil.validateToken(jwtToken, userDetails.getUsername())) {
+//                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+//                        userDetails, jwtToken, userDetails.getAuthorities());
+//                usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+//                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+//            }
+//        }
+//        chain.doFilter(request, response);
+//    }
+//}
+
+
+

@@ -72,15 +72,35 @@ public class ProductLookupService {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
+//    public Map<String, String> getProductDetails(String barcode) {
+//        String url = "http://localhost:8080/rfconsole/product/" + barcode;
+//        HttpHeaders headers = new HttpHeaders();
+//        String token = jwtTokenUtil.getToken();
+//        if (token != null) {
+//            headers.set("Authorization", "Bearer " + token);
+//        } else {
+//            throw new RuntimeException("JWT Token not found in Security Context");
+//        }
+//        HttpEntity<String> entity = new HttpEntity<>(headers);
+//        return restTemplate.exchange(url, HttpMethod.GET, entity, Map.class).getBody();
+//    }
+//}
+
     public Map<String, String> getProductDetails(String barcode) {
         String url = "http://localhost:8080/rfconsole/product/" + barcode;
         HttpHeaders headers = new HttpHeaders();
         String token = jwtTokenUtil.getToken();
+
+        // Ensure the token is prefixed with "Bearer "
         if (token != null) {
-            headers.set("Authorization", "Bearer " + token);
+            if (!token.startsWith("Bearer ")) {
+                token = "Bearer " + token;
+            }
+            headers.set("Authorization", token);
         } else {
             throw new RuntimeException("JWT Token not found in Security Context");
         }
+
         HttpEntity<String> entity = new HttpEntity<>(headers);
         return restTemplate.exchange(url, HttpMethod.GET, entity, Map.class).getBody();
     }
