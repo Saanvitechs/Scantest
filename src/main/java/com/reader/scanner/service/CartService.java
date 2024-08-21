@@ -2,8 +2,10 @@ package com.reader.scanner.service;
 
 import com.reader.scanner.model.Cart;
 import com.reader.scanner.model.CartItem;
+import com.reader.scanner.model.OrderTable;
 import com.reader.scanner.model.Product;
 import com.reader.scanner.repository.CartRepository;
+import com.reader.scanner.repository.OrderRepository;
 import com.reader.scanner.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,9 @@ public class CartService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private OrderRepository orderRepository;
+
     public List<CartItem> getCartItems(Cart cart) {
         return cart.getItems();
     }
@@ -29,10 +34,23 @@ public class CartService {
 //            .toList();
 //}
 
+
+
     public void addItemToCart(Cart cart, Product product) {
         cart.addItem(product);
         productRepository.save(product);
+        //
+        OrderTable order = new OrderTable();
+        order.setProductId(product.getId());
+        order.setName(product.getName());
+        order.setPrice(product.getPrice());
+        order.setUserId(cart.getUser().getId());
+        order.setLocation("Default Location"); // Modify as needed to get actual location
+        orderRepository.save(order);
+
+        saveCart(cart);
     }
+
 
     public void saveCart(Cart cart) {
         cartRepository.save(cart);
