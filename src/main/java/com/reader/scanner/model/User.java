@@ -1,16 +1,15 @@
 package com.reader.scanner.model;
 
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+
+import java.time.LocalDateTime;
 
 @Entity
 public class User {
@@ -32,6 +31,21 @@ public class User {
             message = "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character, and must be at least 8 characters long."
     )
     private String password;
+
+    @Column(nullable = false)
+    private LocalDateTime registrationDate;
+
+    public LocalDateTime getRegistrationDate() {
+        return registrationDate;
+    }
+    @PrePersist
+    protected void onCreate() {
+        registrationDate = LocalDateTime.now();
+    }
+
+    public void setRegistrationDate(LocalDateTime registrationDate) {
+        this.registrationDate = registrationDate;
+    }
 
     public Long getId() {
         return id;
@@ -72,6 +86,7 @@ public class User {
         this.id = id;
         this.email = email;
         this.username = username;
+        this.registrationDate = LocalDateTime.now();
     }
 
 }

@@ -614,14 +614,27 @@ public class RFIDController {
             product.setPrice(Double.parseDouble(productDetails.get("price")));
             product.setWeight(Double.parseDouble(productDetails.get("weight")));
 
+
+
             Cart cart = (Cart) session.getAttribute("cart");
-            if (cart == null) {
+            if (cart == null || !cart.getUser().getId().equals(user.getId())) {
                 cart = new Cart();
                 cart.setCartId(cartService.generateCartId());
                 cart.setUser(user);
+                cartService.saveCart(cart); // Save the new cart
                 session.setAttribute("cart", cart);
-                session.setMaxInactiveInterval(2 * 60 * 60);
+                session.setMaxInactiveInterval(2 * 60 * 60); // Set session timeout to 2 hours
             }
+
+
+//            Cart cart = (Cart) session.getAttribute("cart");
+//            if (cart == null) {
+//                cart = new Cart();
+//                cart.setCartId(cartService.generateCartId());
+//                cart.setUser(user);
+//                session.setAttribute("cart", cart);
+//                session.setMaxInactiveInterval(2 * 60 * 60);
+//            }
 
             cartService.addItemToCart(cart, product);
             cartService.saveCart(cart);

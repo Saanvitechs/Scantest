@@ -37,3 +37,25 @@ public class AuthenticationController {
 
 // added 28th line
 //changes at 30th line with bearertoken
+
+
+// Assuming 'token' is retrieved from the login response and stored securely (e.g., in local storage)
+//const token = localStorage.getItem('jwtToken');
+//const bearerToken = `Bearer ${token}`; // Prepend "Bearer "
+//
+//fetch('http://localhost:8080/api/your-protected-endpoint', {
+//    method: 'GET',
+//            headers: {
+//        'Authorization': bearerToken, // Set the Authorization header
+//                'Content-Type': 'application/json'
+//    }
+//}).then(response => {
+//    if (response.ok) {
+//        return response.json();
+//    }
+//    throw new Error('Network response was not ok.');
+//}).then(data => {
+//    console.log(data);
+//}).catch(error => {
+//        console.error('There was a problem with your fetch operation:', error);
+//});

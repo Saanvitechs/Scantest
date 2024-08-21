@@ -34,49 +34,65 @@ public class DummyRFConsoleController {
         Map<String, String> product3 = new HashMap<>();
         product3.put("name", "Product C");
         product3.put("price", "7.50");
-        product3.put("barcode", "98765432100");
+        product3.put("weight", "5.0");
+        product3.put("rfid", "98765432100");
+        product3.put("productId", "003");
         productDatabase.put("98765432100", product3);
 
         Map<String, String> product4 = new HashMap<>();
         product4.put("name", "Product D");
         product4.put("price", "12.99");
-        product4.put("barcode", "11223344556");
+        product4.put("weight", "4.0");
+        product4.put("rfid", "11223344556");
+        product4.put("productId", "004");
         productDatabase.put("11223344556", product4);
 
         Map<String, String> product5 = new HashMap<>();
         product5.put("name", "Product E");
         product5.put("price", "3.49");
-        product5.put("barcode", "66778899000");
+        product5.put("weight", "51.0");
+        product5.put("rfid", "66778899000");
+        product5.put("productId", "005");
         productDatabase.put("66778899000", product5);
 
         Map<String, String> product6 = new HashMap<>();
         product6.put("name", "Product F");
         product6.put("price", "8.25");
-        product6.put("barcode", "33445566778");
+        product6.put("weight", "9.0");
+        product6.put("rfid", "33445566778");
+        product6.put("productId", "006");
         productDatabase.put("33445566778", product6);
 
         Map<String, String> product7 = new HashMap<>();
         product7.put("name", "Product G");
         product7.put("price", "6.75");
-        product7.put("barcode", "99887766554");
+        product7.put("weight", "3.0");
+        product7.put("rfid", "99887766554");
+        product7.put("productId", "007");
         productDatabase.put("99887766554", product7);
 
         Map<String, String> product8 = new HashMap<>();
         product8.put("name", "Product H");
         product8.put("price", "14.99");
-        product8.put("barcode", "44556677889");
+        product8.put("weight", "1.0");
+        product8.put("rfid", "44556677889");
+        product8.put("productId", "008");
         productDatabase.put("44556677889", product8);
 
         Map<String, String> product9 = new HashMap<>();
         product9.put("name", "Product I");
         product9.put("price", "9.99");
-        product9.put("barcode", "55667788990");
+        product9.put("weight", "1.0");
+        product9.put("rfid", "55667788990");
+        product9.put("productId", "009");
         productDatabase.put("55667788990", product9);
 
         Map<String, String> product10 = new HashMap<>();
         product10.put("name", "Product J");
         product10.put("price", "11.49");
-        product10.put("barcode", "12312312312");
+        product10.put("weight", "1.0");
+        product10.put("rfid", "12312312312");
+        product10.put("productId", "010");
         productDatabase.put("12312312312", product10);
     }
 
